@@ -5,7 +5,7 @@ import remarkParse from 'remark-parse'
 import TypedEmitter from 'typed-emitter'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
-import { Range, TextDocument } from 'vscode'
+import { Range, TextDocument, window } from 'vscode'
 import yaml, { Pair, Scalar, YAMLMap } from 'yaml'
 import { frontMatterRegex } from '../utils'
 import {
@@ -95,6 +95,10 @@ export class DirectiveParser extends (EventEmitter as new () => TypedEmitter<Dir
             this.emit('directive', { info, item, offset })
           }
         }
+      } else {
+        errors.forEach((error) => {
+          window.showErrorMessage(error.message)
+        })
       }
     }
 
